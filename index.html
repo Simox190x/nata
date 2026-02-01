@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>💍</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#2b0b2a;
+      --card: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.16);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --accent:#ff4d8d;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 15%, rgba(255,77,141,.25), transparent 60%),
+        radial-gradient(900px 700px at 80% 80%, rgba(135,92,255,.22), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+    .wrap{
+      width:min(720px, 92vw);
+      padding:22px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:24px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      position:relative;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing:.2px;
+    }
+    p{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size: 16px;
+      line-height:1.45;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:0;
+      cursor:pointer;
+      padding:14px 18px;
+      border-radius:14px;
+      font-weight:700;
+      font-size:16px;
+      color:white;
+      background: linear-gradient(135deg, var(--accent), #ff9a44);
+      box-shadow: 0 16px 45px rgba(255,77,141,.25);
+      transform: translateY(0);
+      transition: transform .12s ease, filter .12s ease;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px); filter: brightness(.95); }
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:14px;
+    }
+    .hidden{ display:none; }
+    .reveal{
+      margin-top:18px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      padding-top:18px;
+    }
+    .imgbox{
+      width:100%;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.15);
+    }
+    img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .bigtext{
+      margin-top:14px;
+      font-size: clamp(18px, 3.4vw, 28px);
+      font-weight:800;
+    }
+    .smallnote{
+      margin-top:6px;
+      font-size:13px;
+      color:rgba(255,255,255,.65);
+    }
+
+    /* Confetti */
+    .confetti{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .piece{
+      position:absolute;
+      width:10px;
+      height:14px;
+      opacity:.9;
+      top:-20px;
+      border-radius:3px;
+      animation: fall linear forwards;
+    }
+    @keyframes fall{
+      to{
+        transform: translateY(calc(100vh + 40px)) rotate(720deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="pill">💍 A very important question…</div>
+      <h1>Natalia, can you marry me?</h1>
+      <p>No pressure 😄 (but there’s only one button)</p>
+
+      <button class="btn" id="yesBtn" aria-label="Yes">
+        ✅ YES
+        <span style="opacity:.9">✨</span>
+      </button>
+
+      <div class="reveal hidden" id="reveal">
+        <div class="imgbox">
+          <!-- Replace the image src below -->
+          <img
+            id="photo"
+            src="natal.png"
+            alt="Our moment"
+            onerror="this.alt='(Image failed to load — check the link)';"
+          />
+        </div>
+        <div class="bigtext">prepare for you wedding baby</div>
+        <div class="smallnote">Screenshot this 😌</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const reveal = document.getElementById("reveal");
+    const confetti = document.getElementById("confetti");
+
+    function popConfetti() {
+      const colors = ["#ff4d8d", "#ff9a44", "#8b5cf6", "#22c55e", "#60a5fa", "#facc15"];
+      const count = 120;
+
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement("div");
+        piece.className = "piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (Math.random() * 1.8 + 1.6) + "s";
+        piece.style.transform = `rotate(${Math.random()*360}deg)`;
+        piece.style.width = (Math.random()*8 + 6) + "px";
+        piece.style.height = (Math.random()*10 + 10) + "px";
+        piece.style.animationDelay = (Math.random() * 0.2) + "s";
+        confetti.appendChild(piece);
+
+        // cleanup
+        setTimeout(() => piece.remove(), 4000);
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      reveal.classList.remove("hidden");
+      yesBtn.disabled = true;
+      yesBtn.style.filter = "grayscale(.2)";
+      yesBtn.textContent = "✅ SHE SAID YES!";
+      popConfetti();
+
+      // Smooth scroll to reveal on small screens
+      reveal.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  </script>
+</body>
+</html>
